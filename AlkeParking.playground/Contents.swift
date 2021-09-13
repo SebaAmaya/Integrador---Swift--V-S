@@ -17,20 +17,18 @@ struct Parking {
     mutating func checkInVehicle(_ vehicle: Vehicle, onFinish: (Bool) -> Void) {
         
         guard maxCapacity > vehicles.count else {
-            print("Vehicle's with plate \(vehicle.plate)")
-            print("Sorry, the check-in failed. The Parking is full")
+            print("Vehicle with plate \(vehicle.plate) Sorry, the check-in failed. The Parking is full")
             onFinish(false)
             return
         }
         
         if vehicles.contains(vehicle){
-            print("Vehicle's with plate \(vehicle.plate)")
             print("Sorry, the check-in failed. The plate: \(vehicle.plate) has already exist")
             onFinish(false)
             return
         } else {
             vehicles.insert(vehicle)
-            print("Vehicle's with plate \(vehicle.plate), checkInTime \(vehicle.checkInTime)")
+            print("Vehicle with plate \(vehicle.plate), checkInTime \(vehicle.checkInTime)")
             print("Welcome to AlkeParking!")
             onFinish(true)
             return
