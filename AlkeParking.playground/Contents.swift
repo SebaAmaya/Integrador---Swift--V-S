@@ -17,17 +17,20 @@ struct Parking {
     mutating func checkInVehicle(_ vehicle: Vehicle, onFinish: (Bool) -> Void) {
         
         guard maxCapacity > vehicles.count else {
+            print("Vehicle's with plate \(vehicle.plate)")
             print("Sorry, the check-in failed. The Parking is full")
             onFinish(false)
             return
         }
         
         if vehicles.contains(vehicle){
+            print("Vehicle's with plate \(vehicle.plate)")
             print("Sorry, the check-in failed. The plate: \(vehicle.plate) has already exist")
             onFinish(false)
             return
         } else {
             vehicles.insert(vehicle)
+            print("Vehicle's with plate \(vehicle.plate), checkInTime \(vehicle.checkInTime)")
             print("Welcome to AlkeParking!")
             onFinish(true)
             return
@@ -146,17 +149,21 @@ let vehicle15 = Vehicle(plate: "CC333FF", type:VehicleType.miniBus, checkInTime:
 let vehicle16 = Vehicle(plate: "AA111EE", type: VehicleType.car, checkInTime: Date(), discountCard: "DISCOUNT_CARD_001")
 let vehicle17 = Vehicle(plate: "B222FFF", type: VehicleType.moto, checkInTime: Date(), discountCard: nil)
 let vehicle18 = Vehicle(plate: "CC333GG", type: VehicleType.miniBus, checkInTime: Date(), discountCard: nil)
-let vehicle19 = Vehicle(plate: "DD444HH", type: VehicleType.bus, checkInTime: Date(), discountCard: "DISCOUNT_CARD_002")
-let vehicle20 = Vehicle(plate: "AA111FF", type: VehicleType.car, checkInTime: Date(), discountCard: "DISCOUNT_CARD_001")
-
-//MARK: - Vehiculo adicional
-let vehicle21 = Vehicle(plate: "B222GGG", type: VehicleType.moto, checkInTime: Date(), discountCard: nil)
+let vehicle19 = Vehicle(plate: "AA111FF", type: VehicleType.bus, checkInTime: Date(), discountCard: "DISCOUNT_CARD_002")
 
 //MARK: - Vehiculo patente repetida
-let vehicle22 = Vehicle(plate: "AA111FF", type: VehicleType.car, checkInTime: Date(), discountCard: "DISCOUNT_CARD_001")
+let vehicle20 = Vehicle(plate: "AA111FF", type: VehicleType.car, checkInTime: Date(), discountCard: "DISCOUNT_CARD_001")
+
+//MARK: - PARKING FULL
+let vehicle21 = Vehicle(plate: "B222GGG", type: VehicleType.moto, checkInTime: Date(), discountCard: nil)
+
+//MARK: - Vehiculo adicional
+let vehicle22 = Vehicle(plate: "B222GGGS", type: VehicleType.moto, checkInTime: Date(), discountCard: nil)
+
+
 
 //MARK: - Arreglo de vehiculos
-var vehiclesArray = [vehicle1, vehicle2,vehicle3,vehicle4,vehicle5,vehicle6,vehicle7,vehicle8,vehicle9, vehicle10,vehicle11,vehicle12,vehicle13,vehicle14,vehicle15, vehicle16, vehicle17,vehicle18,vehicle19,vehicle20,vehicle21, vehicle22]
+var vehiclesArray = [vehicle1, vehicle2,vehicle3,vehicle4,vehicle5,vehicle6,vehicle7,vehicle8,vehicle9, vehicle10,vehicle11,vehicle12,vehicle13,vehicle14,vehicle15, vehicle16, vehicle17,vehicle18,vehicle19,vehicle20,vehicle21,vehicle22]
 
 
 func addToSetVehicles(_ vehiclesArray:[Vehicle] ) {
@@ -167,6 +174,16 @@ func addToSetVehicles(_ vehiclesArray:[Vehicle] ) {
     }
 }
 
+func checkOutVehicle(vehicle: Vehicle){
+    alkeParking.checkOutVehicle(vehicle.plate) { (fee: Int) -> Void in
+        print("Vehicle with plate \(vehicle.plate) Your fee is $\(fee). Come back soon!")
+        return
+    } onError: { (Bool) -> Void in
+        print("Sorry, vehicle with plate \(vehicle.plate) the check-out failed")
+        return
+    }
+}
+
 
 addToSetVehicles(vehiclesArray)
 
@@ -174,22 +191,13 @@ addToSetVehicles(vehiclesArray)
 //MARK: - Vehiculo retirado
 print("\n\nCheck Out Vehicle")
 print("************************")
-alkeParking.checkOutVehicle(vehicle1.plate) { (fee: Int) -> Void in
-    print("Your fee is $\(fee). Come back soon!")
-    return
-} onError: { (Bool) -> Void in
-    print("Sorry, the check-out failed")
-    return
-}
+checkOutVehicle(vehicle: vehicle1)
+checkOutVehicle(vehicle: vehicle2)
+
 
 //Intentar eliminar el mismo vehiculo
-alkeParking.checkOutVehicle(vehicle1.plate) { (fee: Int) -> Void in
-    print("Your fee is $\(fee). Come back soon!")
-    return
-} onError: { (Bool) -> Void in
-    print("Sorry, the check-out failed")
-    return
-}
+checkOutVehicle(vehicle: vehicle1)
+
 
 
 //MARK: - Checked outs y ganancias
@@ -202,4 +210,5 @@ alkeParking.earningInformation()
 print("\n\nPlates")
 print("************************")
 alkeParking.listVehicles()
+
 
