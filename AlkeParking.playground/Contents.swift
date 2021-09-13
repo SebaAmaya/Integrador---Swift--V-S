@@ -177,7 +177,7 @@ func checkOutVehicle(vehicle: Vehicle){
         print("Vehicle with plate \(vehicle.plate) Your fee is $\(fee). Come back soon!")
         return
     } onError: { (Bool) -> Void in
-        print("Sorry, vehicle with plate \(vehicle.plate) the check-out failed")
+        print("Sorry vehicle \(vehicle.plate), check-out failed")
         return
     }
 }
